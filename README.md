@@ -14,6 +14,9 @@ Set the bookmark to show on your bookmark bar for easier access
 
 ### open_pics_in_tabs.js
 
+NOTE: You will probably have to disable blocking popups for the page you try to
+do this on, otherwise this script may only open 1 image instead of all.
+
 Attempts to find images on the current page, and opens them in a new tab.
 
 The images it finds are either `<img>` tags for images bigger than 700x700, or
@@ -56,6 +59,9 @@ items into the correct position, so it just clicks the "move to bottom" button
 on all of the videos in the playlist, but it does it in order of duration.
 
 ### instagram.js
+
+NOTE: You will probably have to disable blocking popups for the page you try to
+do this on, otherwise this script may only open 1 image instead of all.
 
 This does the same as [open_pics_in_tabs.js](#open_pics_in_tabsjs) and
 [open_vids_in_tabs.js](#open_vids_in_tabsjs)
