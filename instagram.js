@@ -13,11 +13,11 @@ javascript:(function() {
     var imgsAndVids = {};
 
     function imgFilter(img) {
-        var use1 = imgSrcRegex.test(img.src) && img.src.indexOf('150x150/') === -1 && img.src.indexOf('640x640/') === -1;
+        const use1 = img.style.objectFit === 'cover';
+        const use2 = parseInt(img.sizes, 10) > 400;
+        const use3 = img.sizes === '';
 
-        var use2 = parseInt(img.sizes, 10) > 400;
-
-        return use2;
+        return isStory ? use2 : use1 && (use2 || use3);
     }
 
     function next() {
