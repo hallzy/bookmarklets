@@ -1,5 +1,6 @@
 javascript:(function() {
     const url = window.location.href;
+    const igDownloader = "https://igram.io/";
 
     if (url.indexOf('instagram.com') === -1) {
         alert("This bookmarklet only works on instagram");
@@ -20,17 +21,22 @@ javascript:(function() {
         return isStory ? use2 : use1 && (use2 || use3);
     }
 
+    let hasVids = false;
     function next() {
-        Array.from(document.querySelectorAll('ul img'))
+        Array.from(document.querySelectorAll('div > div > div > img'))
             .filter(el => el.src !== '')
             .filter(imgFilter)
             .map(el => el.src)
             .forEach(src => { imgsAndVids[src] = true });
 
-        Array.from(document.querySelectorAll('video, video source'))
+        const vids = Array.from(document.querySelectorAll('video, video source'))
             .filter(el => el.src !== '')
             .map(el => el.src)
-            .forEach(src => { imgsAndVids[src] = true });
+        ;
+
+        hasVids = hasVids || vids.length > 0;
+
+        vids.forEach(src => { imgsAndVids[src] = true });
 
         console.log(imgsAndVids);
 
@@ -41,9 +47,17 @@ javascript:(function() {
             nextImg[0].click();
             setTimeout(next, 500);
         } else {
+            if (hasVids) {
+                window.open(igDownloader, '_blank');
+            }
+
             imgsAndVids = Object.keys(imgsAndVids);
             imgsAndVids.forEach(src => window.open(src, '_blank'));
         }
+    }
+
+    function getPrevImg() {
+        return document.querySelectorAll('article button[aria-label="Go back"]');
     }
 
     /* If this is a story, then don't advance to the next. Just get the current */
@@ -52,10 +66,8 @@ javascript:(function() {
         return;
     }
 
-    const prevImg = document.querySelectorAll('article button[aria-label="Go back"]');
-
     /* Only 1 image/video, or we are already at the beginning of the carousel */
-    if (prevImg.length === 0) {
+    if (getPrevImg().length === 0) {
         /* We can just open it instantly if we are at the beginning. */
         next();
         return;
@@ -64,8 +76,9 @@ javascript:(function() {
     /* If we have previous images then go to the beginning of all the images */
 
     /* Move to first image in Carousel   */
-    while (prevImg.length >= 1) {
-        prevImg[0].click();
+    while (getPrevImg().length >= 1) {
+        console.log('wtf');
+        getPrevImg()[0].click();
     }
     /* Wait a bit otherwise stuff can mess up */
     setTimeout(next, 500);
