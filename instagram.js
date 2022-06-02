@@ -8,6 +8,9 @@ javascript:(function() {
 
     const isStory = url.indexOf('/stories/') !== -1;
 
+    const bodyChildren = document.body.children;
+    const root = isStory ? document : bodyChildren[bodyChildren.length - 1];
+
     const imgSrcRegex = RegExp('/[a-z][0-9]+x[0-9]+/');
 
     var imgsAndVids = {};
@@ -21,13 +24,13 @@ javascript:(function() {
     }
 
     function next() {
-        Array.from(document.getElementsByTagName('img'))
+        Array.from(root.getElementsByTagName('img'))
             .filter(el => el.src !== '')
             .filter(imgFilter)
             .map(el => el.src)
             .forEach(src => { imgsAndVids[src] = true });
 
-        Array.from(document.querySelectorAll('video, video source'))
+        Array.from(root.querySelectorAll('video, video source'))
             .filter(el => el.src !== '')
             .map(el => el.src)
             .forEach(src => { imgsAndVids[src] = true });
