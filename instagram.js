@@ -8,9 +8,6 @@ javascript:(function() {
 
     const isStory = url.indexOf('/stories/') !== -1;
 
-    const bodyChildren = document.body.children;
-    const root = isStory ? document : bodyChildren[bodyChildren.length - 1];
-
     const imgSrcRegex = RegExp('/[a-z][0-9]+x[0-9]+/');
 
     var imgsAndVids = {};
@@ -24,18 +21,20 @@ javascript:(function() {
     }
 
     function next() {
-        Array.from(root.getElementsByTagName('img'))
+        Array.from(document.querySelectorAll('ul img'))
             .filter(el => el.src !== '')
             .filter(imgFilter)
             .map(el => el.src)
             .forEach(src => { imgsAndVids[src] = true });
 
-        Array.from(root.querySelectorAll('video, video source'))
+        Array.from(document.querySelectorAll('video, video source'))
             .filter(el => el.src !== '')
             .map(el => el.src)
             .forEach(src => { imgsAndVids[src] = true });
 
         console.log(imgsAndVids);
+
+        const nextImg = document.querySelectorAll('article button[aria-label="Next"]');
 
         /* Only advance to the next image/video if this isn't a story */
         if (!isStory && nextImg.length >= 1) {
@@ -53,8 +52,7 @@ javascript:(function() {
         return;
     }
 
-    var prevImg = document.getElementsByClassName('coreSpriteLeftChevron');
-    var nextImg = document.getElementsByClassName('coreSpriteRightChevron');
+    const prevImg = document.querySelectorAll('article button[aria-label="Go back"]');
 
     /* Only 1 image/video, or we are already at the beginning of the carousel */
     if (prevImg.length === 0) {
