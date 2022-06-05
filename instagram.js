@@ -60,6 +60,10 @@ javascript:(function() {
         return document.querySelectorAll('article button[aria-label="Go back"]');
     }
 
+    function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
     /* If this is a story, then don't advance to the next. Just get the current */
     if (isStory) {
         next();
@@ -74,12 +78,16 @@ javascript:(function() {
     }
 
     /* If we have previous images then go to the beginning of all the images */
-
-    /* Move to first image in Carousel   */
-    while (getPrevImg().length >= 1) {
-        console.log('wtf');
-        getPrevImg()[0].click();
-    }
-    /* Wait a bit otherwise stuff can mess up */
-    setTimeout(next, 500);
+    (
+        async () => {
+            /* Move to first image in Carousel   */
+            while (getPrevImg().length >= 1) {
+                getPrevImg()[0].click();
+                await wait(500);
+            }
+            /* Wait a bit otherwise stuff can mess up */
+            await wait(500);
+            next();
+        }
+    )();
 }());
