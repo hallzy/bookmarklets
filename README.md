@@ -58,10 +58,12 @@ it is probably (I didn't try) a pain to get javascript to actually drag the
 items into the correct position, so it just clicks the "move to bottom" button
 on all of the videos in the playlist, but it does it in order of duration.
 
-### instagram_reduce_focus_of_videos.js
+### instagram_reduce_focus_of_videos_and_pinned.js
 
 Lowers the opacity of tiles that are videos or clips to take focus away from
 them.
+
+Also makes tiles that are pinned posts invisible.
 
 ### instagram.js
 
